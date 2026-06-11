@@ -10,10 +10,10 @@ SCRIPT_NAME=$(basename "$0")
 LOGS_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
 
 
-USERID=$(id -u)
+
 
 # colours
-
+USERID=$(id -u)
 R="\e[31m]"
 G="\e[32m]"
 Y="\e[33m]"
@@ -38,3 +38,11 @@ VALIDATE(){
 
 cp mongo.repo /etc/yum.repos.d/mongo.repo
 VALIDATE $? "Added Mongo repos"
+
+
+# Installing mongodb
+
+mongodb="dnf install mongodb-org -y"
+
+dnf "$mongodb" &>> "$LOGS_FILE" 
+VALIDATE $? "Installing MongoDB" 
