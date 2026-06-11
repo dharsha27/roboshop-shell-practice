@@ -44,5 +44,5 @@ VALIDATE $? "Added Mongo repos"
 
 echo "$TIMESTAMP [INFO ]Installing mongodb.." | tee -a "$LOGS_FILE"
 
-dnf dnf install mongodb-org -y &>> "$LOGS_FILE" 
+dnf install mongodb-org -y &>> "$LOGS_FILE" 
 VALIDATE $? "Installing MongoDB" 
