@@ -34,47 +34,47 @@ do
    echo "Creating DNS record for $instance.$DOMAIN_NAME..."
 
 
-   aws route53 change-resource-record-sets --hosted-zone-id "$HOSTED_ZONE" --change-batch "
-{
-  \"Comment\": \"Update a new IP record\",
-  \"Changes\": [
-    {
-      \"Action\": \"UPSERT\",
-      \"ResourceRecordSet\": {
-        \"Name\": \"$R53_RECORD\",
-        \"Type\": \"A\",
-        \"TTL\": 1,
-        \"ResourceRecords\": [
-          { 
-            \"Value\": \"$IP\"
+#    aws route53 change-resource-record-sets --hosted-zone-id "$HOSTED_ZONE " --change-batch "
+# {
+#   \"Comment\": \"Update a new IP record\",
+#   \"Changes\": [
+#     {
+#       \"Action\": \"UPSERT\",
+#       \"ResourceRecordSet\": {
+#         \"Name\": \"$R53_RECORD\",
+#         \"Type\": \"A\",
+#         \"TTL\": 1,
+#         \"ResourceRecords\": [
+#           { 
+#             \"Value\": \"$IP\"
+#           }
+#         ]
+#       }
+#     }
+#   ]
+# }
+# "
+
+   aws route53 change-resource-record-sets --hosted-zone-id "$HOSTED_ZONE" --change-batch  "
+   {
+     "Comment":"Update a new IP record"
+     "Changes": [
+       {
+         "Action": "UPSERT",
+         "ResourceRecordSet": {
+         "Name": "'$R53_RECORD'",
+         "Type": "A",
+         "TTL": 1,
+         "ResourceRecords": [
+               { 
+                 "Value": "$IP"
+              }
+            ]
           }
-        ]
-      }
-    }
-  ]
+       }
+    ]
 }
 "
-
-#    aws route53 change-resource-record-sets --hosted-zone-id "$HOSTED_ZONE_ID" --change-batch  '
-#    {
-#      "Comment":"Update a new IP record"
-#      "Changes": [
-#        {
-#                 "Action": "UPSERT",
-#                     "ResourceRecordSet": {
-#                     "Name": "'$R53_RECORD'",
-#                     "Type": "A",
-#                     "TTL": 1,
-#                     "ResourceRecords": [
-#                             { 
-#                                "Value": "$IP"
-#                           }
-#                       ]
-#          }
-#        }
-#      ]
-#    }
-# '
 
 done
 
