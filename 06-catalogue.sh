@@ -8,6 +8,7 @@ sudo chown -R ec2-user:ec2-user "$LOGS_FOLDER"
 sudo chmod 755 "$LOGS_FOLDER"
 SCRIPT_NAME=$(basename "$0")
 LOGS_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
+SCRIPT_DIR=$PWD
 
 
 
@@ -52,11 +53,39 @@ if [ $? -ne 0 ]; then
       useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
       VALIDATE $? "System User roboshop  creating ... "
 else 
-      echo "Created system user roboshop already ...$Y skipping $N"
+      echo -e "Created system user roboshop already ...$Y skipping $N"
 fi
 
+rm -rf /app  &>> "$LOGS_FILE"
+VALIDATE $? "Removing existing code"  &>> "$LOGS_FILE"
+
+rm -rf /tmp/catalogue.zip
+VALIDATE $? "Removing existing code"  &>> "$LOGS_FILE"
 
 mkdir -p /app &>> "$LOGS_FILE"
 
 VALIDATE $? "Creating app directory "
+
+curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip 
+# shellcheck disable=SC2164
+cd /app 
+# shellcheck disable=SC2129
+unzip /tmp/catalogue.zip  &>> "$LOGS_FILE"
+VALIDATE $? "Downloaded and extracted catalogue code"  &>> "$LOGS_FILE"
+
+
+npm install  &>> "$LOGS_FILE"
+VALIDATE $? "Installing Dependencies"  &>> "$LOGS_FILE"
+
+cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
+VALIDATE $? "Creating system catalogue service"
+
+cp $SCRIPT_DIR/mongo.repi /etc/yum.repos.d/mongo.repo
+VALIDATE $? "Creating system mongo repos"
+
+dnf install mongodb-mongosh -y
+mongosh --host MONGODB-SERVER-IPADDRESS </app/db/master-data.js
+VALIDATE $? "Installing mongodb client"
+
+# mongosh --host mongodb.devopspractice.online </app/db/master-data.js
 
