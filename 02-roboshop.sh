@@ -1,7 +1,7 @@
 #!/bin/bash 
 
 AMI_ID="ami-0220d79f3f480ecf5"
-HOSTED_ZOME="Z02304293I0EIMA6V7PSK"
+HOSTED_ZONE="Z02304293I0EIMA6V7PSK"
 DOMAIN_NAME="devopspractice.online"
 
 
@@ -34,7 +34,7 @@ do
    echo "Creating DNS record for $instance.$DOMAIN_NAME..."
 
 
-   aws route53 change-resource-record-sets --hosted-zone-id "$HOSTED_ZONE_ID" --change-batch "
+   aws route53 change-resource-record-sets --hosted-zone-id "$HOSTED_ZONE" --change-batch "
 {
   \"Comment\": \"Update a new IP record\",
   \"Changes\": [
