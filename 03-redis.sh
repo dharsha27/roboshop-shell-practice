@@ -52,9 +52,14 @@ echo "$TIMESTAMP [INFO ]Installing Redis.." | tee -a "$LOGS_FILE"
 dnf install redis -y 
 VALIDATE $? "Installing Redis" 
 
-sed -i -e "s/127.0.0.0/0.0.0.0/g"  -e /protected-mode/ c protected-mode no /etc/redis/redis.conf
+# sed -i -e "s/127.0.0.0/0.0.0.0/g"  -e /protected-mode/ c protected-mode no /etc/redis/redis.conf
 
-VALIDATE $? "Allowing remote changes"
+# Adjust Configuration for Remote Access and Disable Protected Mode
+echo -e "$(date "+%Y-%m-%d %H:%M:%S") [INFO] Editing /etc/redis/redis.conf settings..." | tee -a "$LOGS_FILE"
+sed -i -e 's/bind 127.0.0.1/bind 0.0.0.0/g' -e 's/protected-mode yes/protected-mode no/g' /etc/redis/redis.conf &>> "$LOGS_FILE" 
+VALIDATE $? "Allowing remote changes in config file"
+
+
 
 
 systemctl enable redis 
