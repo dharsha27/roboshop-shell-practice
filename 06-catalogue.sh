@@ -52,10 +52,11 @@ if [ $? -ne 0 ]; then
       useradd --system --home /app --shell /sbin/nologin --comment "roboshop system user" roboshop
       VALIDATE $? "System User roboshop  creating ... "
 else 
-      echo "Creating system user roboshop..."
+      echo "Created system user roboshop already ...$Y skipping $N"
 fi
 
 
-mkdir -p &>> "$LOGS_FILE"
+mkdir -p /app &>> "$LOGS_FILE"
 
 VALIDATE $? "Creating app directory "
+
