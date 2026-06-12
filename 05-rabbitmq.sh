@@ -1,6 +1,5 @@
 #!/bin/bash 
 
-
 # Logs files
 
 LOGS_FOLDER="/var/log/roboshop"
@@ -29,26 +28,32 @@ else
 fi
 
 VALIDATE(){
-    if [ $1 -ne 0 ]; then 
+    if [ "$1" -ne 0 ]; then 
        echo -e "$TIMESTAMP  [ERROR] $2 ....$R FAILURE $N " | tee -a "$LOGS_FILE"
     else
        echo -e "$TIMESTAMP  [INFO] $2 ....$G SUCCESS $N " | tee -a "$LOGS_FILE"
     fi
 }
 
+cp rabbitmq.repo  /etc/yum.repos.d/rabbitmq.repo
+
+VALIDATE $? "Added the rabbitmq repos"
 
 # Installing Mysql
-echo "Installing my sql server"
-dnf install mysql-server -y
+echo "Installing rabbitmq"
+dnf install rabbitmq-server -y
 
-VALIDATE $? "Installing Mysql server"
+VALIDATE $? "Installing rabbitmq "
 
-systemctl enable mysqld &>> "$LOGS_FILE"
-systemctl start mysqld  &>> "$LOGS_FILE"
-VALIDATE $? "Enable and start Mysql server" 
+systemctl enable rabbitmq-server  &>> "$LOGS_FILE"
+systemctl start rabbitmq-server   &>> "$LOGS_FILE"
 
-mysql_secure_installation --set-root-pass RoboShop@1
-VALIDATE $? "Setting up to root access" 
+VALIDATE $? "Enable and start rabbitmq server" 
+
+rabbitmqctl add_user roboshop roboshop123
+rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
+
+VALIDATE $? "Setting up to user and password access" 
 
 
 
