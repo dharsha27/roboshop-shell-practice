@@ -48,7 +48,7 @@ VALIDATE $? "Added Mongo repos"
 
 echo "$TIMESTAMP [INFO ]Installing mongodb.." | tee -a "$LOGS_FILE"
 
-dnf dnf install -y mongodb-org  &>> "$LOGS_FILE" 
+dnf install -y mongodb-org  &>> "$LOGS_FILE" 
 
 echo "Mongodb enabling"
  systemctl enable mongod
