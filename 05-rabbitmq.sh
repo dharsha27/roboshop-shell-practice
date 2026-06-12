@@ -41,17 +41,18 @@ VALIDATE $? "Added the rabbitmq repos"
 
 # Installing Mysql
 echo "Installing rabbitmq"
-dnf install rabbitmq-server -y
 
-VALIDATE $? "Installing rabbitmq "
+dnf install rabbitmq-server -y  &>> "$LOGS_FILE"
+
+VALIDATE $? "Installing rabbitmq " &>> "$LOGS_FILE"
 
 systemctl enable rabbitmq-server  &>> "$LOGS_FILE"
 systemctl start rabbitmq-server   &>> "$LOGS_FILE"
 
 VALIDATE $? "Enable and start rabbitmq server" 
 
-rabbitmqctl add_user roboshop roboshop123
-rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
+rabbitmqctl add_user roboshop roboshop123  &>> "$LOGS_FILE"
+rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>> "$LOGS_FILE"
 
 VALIDATE $? "Setting up to user and password access" 
 
