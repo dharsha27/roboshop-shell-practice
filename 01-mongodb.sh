@@ -36,14 +36,27 @@ VALIDATE(){
 }
 
 
+
 cp mongo.repo /etc/yum.repos.d/mongo.repo
 VALIDATE $? "Added Mongo repos"
 
 
 # Installing mongodb
 
+ dnf clean all
+
+
 echo "$TIMESTAMP [INFO ]Installing mongodb.." | tee -a "$LOGS_FILE"
 
 dnf install mongodb-org -y  &>> "$LOGS_FILE" 
 
+echo "Mongodb enabling"
+ systemctl enable mongod
+ echo "Mongodb starting"
+ systemctl start mongod
+ echo "Mongodb restarting"
+ systemctl restart mongod
+
 VALIDATE $? "Installing MongoDB" 
+
+
