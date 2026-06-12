@@ -80,11 +80,11 @@ VALIDATE $? "Installing Dependencies"  &>> "$LOGS_FILE"
 cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
 VALIDATE $? "Creating system catalogue service"
 
-cp $SCRIPT_DIR/mongo.repi /etc/yum.repos.d/mongo.repo
+cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
 VALIDATE $? "Creating system mongo repos"
 
 dnf install mongodb-mongosh -y
-mongosh --host MONGODB-SERVER-IPADDRESS </app/db/master-data.js
+# mongosh --host MONGODB-SERVER-IPADDRESS </app/db/master-data.js
 VALIDATE $? "Installing mongodb client"
 
 # mongosh --host mongodb.devopspractice.online </app/db/master-data.js
