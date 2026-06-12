@@ -67,9 +67,9 @@ mkdir -p /app &>> "$LOGS_FILE"
 VALIDATE $? "Creating app directory "
 
 curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue-v3.zip 
-# shellcheck disable=SC2164
+
 cd /app 
-# shellcheck disable=SC2129
+
 unzip /tmp/catalogue.zip  &>> "$LOGS_FILE"
 VALIDATE $? "Downloaded and extracted catalogue code"  &>> "$LOGS_FILE"
 

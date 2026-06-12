@@ -50,6 +50,12 @@ echo "$TIMESTAMP [INFO ]Installing mongodb.." | tee -a "$LOGS_FILE"
 
 dnf install -y mongodb-org  &>> "$LOGS_FILE" 
 
+# Adjust Configuration for Remote Access and Disable Protected Mode
+echo -e "$(date "+%Y-%m-%d %H:%M:%S") [INFO] Editing /etc/redis/redis.conf settings..." | tee -a "$LOGS_FILE"
+sed -i -e 's/bind 127.0.0.1/bind 0.0.0.0/g'  /etc/mongod.conf &>> "$LOGS_FILE" 
+VALIDATE $? "Allowing remote changes in config file"
+
+
 echo "Mongodb enabling"
  systemctl enable mongod
  echo "Mongodb starting"
