@@ -60,8 +60,6 @@ sed -i -e 's/bind 127.0.0.1/bind 0.0.0.0/g' -e 's/protected-mode yes/protected-m
 VALIDATE $? "Allowing remote changes in config file"
 
 
-
-
 systemctl enable redis 
 systemctl start redis 
 

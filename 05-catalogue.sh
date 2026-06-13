@@ -85,7 +85,18 @@ VALIDATE $? "Creating system mongo repos"
 
 dnf install mongodb-mongosh -y
 # mongosh --host MONGODB-SERVER-IPADDRESS </app/db/master-data.js
-VALIDATE $? "Installing mongodb client"
+VALIDATE $? "Installing mongodb client"  &>> "$LOGS_FILE"
 
-# mongosh --host mongodb.devopspractice.online </app/db/master-data.js
+ INDEX=$(mongosh --host mongodb.devopspractice.online --eval 'db.getMongo().getDBNames().indexOf("catalogue")')
 
+if [ $INDEX -lt 0 ]; then 
+     mongosh --host mongodb.devopspractice.online <app/db/mastet-data.js
+     VALIDATE $? "Load Products " &>> "$LOGS_FILE"
+
+else
+  echo "Already loaded"
+fi
+systemctl enable catalogue  &>> "$LOGS_FILE"
+systemctl start catalogue &>> "$LOGS_FILE"
+VALIDATE $? "Enable and start catalogue " &>> "$LOGS_FILE"
+     
