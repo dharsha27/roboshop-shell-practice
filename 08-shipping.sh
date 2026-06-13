@@ -9,6 +9,7 @@ sudo chmod 755 "$LOGS_FOLDER"
 SCRIPT_NAME=$(basename "$0")
 LOGS_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
 SCRIPT_DIR=$PWD
+MYSQL_HOST="$mysql.devopspractice.online"
 
 
 
@@ -69,7 +70,7 @@ VALIDATE $? "Downloaded and extracted shipping code"  &>> "$LOGS_FILE"
 
 mvn clean package  &>> "$LOGS_FILE"
 
-mv target/shipping-1.0.jar shipping.jar 
+mv target/shipping-1.0.jar shipping.jar &>> "$LOGS_FILE"
 VALIDATE $? "cleaning the packages"  &>> "$LOGS_FILE"
 
 cp $SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service
@@ -85,7 +86,22 @@ VALIDATE $? "Enable and start catalogue " &>> "$LOGS_FILE"
 
 dnf install mysql -y &>> "$LOGS_FILE"
 
-VALIDATE $? "Installed MYSQL client" 
+VALIDATE $? "Installed MYSQL client" &>> "$LOGS_FILE"
+
+mysql -h mysql.devopspractice.online -u root -pRoboShop@1 < /app/db/schema.sql
+
+if [ $? -ne 0 ] ; then 
+    
+    mysql -h $MYSQL_HOST -u root -pRoboShop@1 < /app/db/schema.sql
+    mysql -h $MYSQL_HOST -u root -pRoboShop@1 < /app/db/app-user.sql
+    mysql -h $MYSQL_HOST -u root -pRoboShop@1 < /app/db/master-data.sql
+    VALIDATE $? "Data Loaded"
+else 
+
+   echo -e " Data Already Loading ... $Y Skipping  "
+fi
 
 
-     
+systemctl enable shipping 
+systemctl restart shipping
+ VALIDATE $? "Enabled and restarted shipping "
