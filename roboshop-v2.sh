@@ -15,7 +15,7 @@ TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
 
 ### Validation  ###
 
-if [ $# -lt 1 ]; then
+if [ $# -lt 2 ]; then
 
      echo -e " $R Error : Atleast 2 arguments required  "
      echo -e " USAGE : $0 [create/delete] [Instance 1][Instance 2...]  "
