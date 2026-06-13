@@ -61,7 +61,7 @@ rm -rf /etc/nginx/nginx.conf
 VALIDATE $? "removeing nginx file"
 
 
-cp nginx.conf /devopspractice.online
+cp nginx.conf /etc/nginx/nginx.conf
 VALIDATE $? "copy coded to that nginx"
 
 
