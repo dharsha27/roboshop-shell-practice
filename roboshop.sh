@@ -57,7 +57,7 @@ do
     INSTANCE_ID=$(get_instance_id "$instance")
 
     if [ "$ACTION" == "create" ]; then
-        if [ "$INSTANCE_ID" == "None" ] || [ -z "$INSTANCE_ID" ]; then
+        # if [ "$INSTANCE_ID" == "None" ] || [ -z "$INSTANCE_ID" ]; then
             # Pass the current instance name to the function
             INSTANCE_ID=$(launch_instance "$instance") 
             echo "Launched Instance ID: $INSTANCE_ID"
@@ -65,9 +65,9 @@ do
             # CRITICAL: Wait until the instance is running, otherwise IP lookup will fail
             echo "Waiting for instance to enter running state..."
             aws ec2 wait instance-running --instance-ids "$INSTANCE_ID"
-        else
+        # else
             echo -e "${Y}This instance roboshop-$instance is already running (ID: $INSTANCE_ID)${N}"
-        fi         
+        # fi         
 
         # Fetch IP Address
         if [ "$instance" == "frontend" ]; then
