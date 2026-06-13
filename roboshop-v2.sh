@@ -55,30 +55,13 @@ launch_instance(){
 }
 
 
-update_R53_record(){
- 
- aws route53 change-resource-record-sets --hosted-zone-id "$HOSTED_ZONE" --change-batch "
-{
-  \"Comment\": \"Update a new IP record\",
-  \"Changes\": [
-    {
-      \"Action\": \"UPSERT\",
-      \"ResourceRecordSet\": {
-        \"Name\": \"$R53_RECORD\",
-        \"Type\": \"A\",
-        \"TTL\": 1,
-        \"ResourceRecords\": [
-          { 
-            \"Value\": \"$IP\"
-          }
-        ]
-      }
-    }
-  ]
-}
-"
+destroy_instance(){
 
+    instance_id=$instance_id
+
+    aws ec2 terminate-instances --instance-ids $instance_id
 }
+
 
 for instance in "$@" 
 do 
@@ -123,13 +106,19 @@ do
     }
   ]
 }
-"
-   echo "Updated R53 record for : $instance"
+"   
+        echo "Updated R53 record for : $instance"
    
 
      else
-          echo -  "$Y roboshop-$instance already running : $INSTANCE_ID "
-          
+
+           if [ $INSTANCE_ID == "None" ]; then 
+                 echo -  "$Y roboshop-$instance already running : $INSTANCE_ID "
+           else 
+                aws ec2 terminate-instances --instance-ids $INSTANCE_ID
+                 echo " Successfully Terminated the Instances : $INSTANCE_ID"
+
+           fi
 fi
 
 
