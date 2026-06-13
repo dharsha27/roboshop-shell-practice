@@ -43,7 +43,7 @@ get_instance_id(){
 
 launch_instance(){
 
-    echo "we are going to launching the  instance according to your requirement--roboshop $instance"
+    echo -e "we are going to launching the  instance according to your requirement--roboshop $instance" >&2
     aws ec2 run-instances \
     --image-id $AMI_ID \
     --instance-type t3.micro \
