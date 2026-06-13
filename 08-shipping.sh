@@ -68,7 +68,7 @@ unzip /tmp/shipping.zip
 VALIDATE $? "Downloaded and extracted shipping code"  &>> "$LOGS_FILE"
 
 cd /app  &>> "$LOGS_FILE"
-mvn clean package  &>> "$LOGS_FILE"
+mvn clean package  
 mv target/shipping-1.0.jar shipping.jar &>> "$LOGS_FILE"
 VALIDATE $? "cleaning the packages"  &>> "$LOGS_FILE"
 
@@ -101,6 +101,6 @@ else
 fi
 
 
-systemctl enable shipping 
+# systemctl enable shipping 
 systemctl restart shipping
  VALIDATE $? "Enabled and restarted shipping "

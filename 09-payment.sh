@@ -76,7 +76,7 @@ VALIDATE $? "Creating system catalogue service"
 systemctl daemon-reload
 
 
-systemctl enable user  &>> "$LOGS_FILE"
-systemctl start user &>> "$LOGS_FILE"
+systemctl enable payment  &>> "$LOGS_FILE"
+systemctl start payment &>> "$LOGS_FILE"
 VALIDATE $? "Enable and start catalogue " &>> "$LOGS_FILE"
      
