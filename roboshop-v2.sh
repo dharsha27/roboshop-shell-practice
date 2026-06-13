@@ -73,6 +73,8 @@ do
        
               INSTANCE_ID=$(launch_instance) 
               echo "Launched Instance: $INSTANCE_ID"
+     else
+          echo "This instance $instance already created , this is the $INSTANCE_ID... so please check itt your end "
      fi         
 
           if [ "$instance" == "frontend" ]; then
