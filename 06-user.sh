@@ -68,7 +68,7 @@ VALIDATE $? "Creating app directory "
 
 curl -o /tmp/user.zip https://roboshop-artifacts.s3.amazonaws.com/user-v3.zip 
 
-cd /app 
+cd /app  
 
 unzip /tmp/catalogue.zip  &>> "$LOGS_FILE"
 VALIDATE $? "Downloaded and extracted catalogue code"  &>> "$LOGS_FILE"
@@ -80,6 +80,7 @@ VALIDATE $? "Installing Dependencies"  &>> "$LOGS_FILE"
 cp $SCRIPT_DIR/user.service /etc/systemd/system/user.service
 VALIDATE $? "Creating system catalogue service"
 
+systemctl daemon-reload
 
 systemctl enable user  &>> "$LOGS_FILE"
 systemctl start user &>> "$LOGS_FILE"

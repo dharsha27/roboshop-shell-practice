@@ -67,9 +67,8 @@ unzip /tmp/shipping.zip
 
 VALIDATE $? "Downloaded and extracted shipping code"  &>> "$LOGS_FILE"
 
-
+cd /app  &>> "$LOGS_FILE"
 mvn clean package  &>> "$LOGS_FILE"
-
 mv target/shipping-1.0.jar shipping.jar &>> "$LOGS_FILE"
 VALIDATE $? "cleaning the packages"  &>> "$LOGS_FILE"
 
