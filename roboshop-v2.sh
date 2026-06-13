@@ -47,7 +47,7 @@ launch_instance(){
     aws ec2 run-instances \
     --image-id $AMI_ID \
     --instance-type t3.micro \
-    --security-group-ids "roboshop-common" "roboshop-$instance" \
+    --security-group "roboshop-common" "roboshop-$instance" \
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=roboshop-$instance}]"\
     --query 'Instances[0].InstanceId'\
     --output text
@@ -55,12 +55,12 @@ launch_instance(){
 }
 
 
-destroy_instance(){
+# destroy_instance(){
 
-    instance_id=$instance_id
+#     instance_id=$instance_id
 
-    aws ec2 terminate-instances --instance-ids $instance_id
-}
+#     aws ec2 terminate-instances --instance-ids $instance_id
+# }
 
 
 for instance in "$@" 
