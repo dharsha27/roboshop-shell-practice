@@ -61,13 +61,12 @@ rm -rf /etc/nginx/nginx.conf
 VALIDATE $? "removeing nginx file"
 
 
-cp nginx.conf /etc/nginx/nginx.conf
+cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf
 VALIDATE $? "copy coded to that nginx"
 
 
-
-systemctl enable nginx 
 systemctl Restart nginx 
+systemctl enable nginx 
 
 VALIDATE $? "Enabled and restarted nginx"
 
