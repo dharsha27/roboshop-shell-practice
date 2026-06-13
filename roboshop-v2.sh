@@ -43,18 +43,18 @@ get_instance_id(){
 
 }
 
-launch_instance(){
+# launch_instance(){
     
-    echo -e "we are going to launching the  instance according to your requirement--roboshop $instance" >&2
-    aws ec2 run-instances \
-    --image-id $AMI_ID \
-    --instance-type t3.micro \
-    --security-groups "roboshop-common" "roboshop-$instance" \
-    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=roboshop-$instance}]"\
-    --query 'Instances[0].InstanceId' \
-    --output text
+#     echo -e "we are going to launching the  instance according to your requirement--roboshop $instance" >&2
+#     aws ec2 run-instances \
+#     --image-id $AMI_ID \
+#     --instance-type t3.micro \
+#     --security-groups "roboshop-common" "roboshop-$instance" \
+#     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=roboshop-$instance}]"\
+#     --query 'Instances[0].InstanceId' \
+#     --output text
 
-}
+# }
 
 
 for instance in "$@" 
@@ -63,9 +63,17 @@ do
    INSTANCE_ID=$(get_instance_id "$instance")
 
  if [ "$ACTION" == "create" ]; then
-     if [ "$INSTANCE_ID" == "None"  ]; then
        
-             launch_instance 
+     if [ "$INSTANCE_ID" == "None"  ]; then
+                INSTANCE_ID=$(aws ec2 run-instances \
+                --image-id $AMI_ID \
+                --instance-type t3.micro \
+                --security-groups "roboshop-common" "roboshop-$instance" \
+                --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=roboshop-$instance}]"\
+                --query 'Instances[0].InstanceId' \
+                --output text)
+
+            
               echo "Launched Instance: $INSTANCE_ID"
      else
           echo "This instance $instance already created , this is the instance_id =$INSTANCE_ID... so please check it your end "
