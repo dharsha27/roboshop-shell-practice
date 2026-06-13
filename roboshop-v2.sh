@@ -76,6 +76,8 @@ do
      else
           echo "This instance $instance already created , this is the instance_id =$INSTANCE_ID... so please check it your end "
      fi         
+       
+       sleep 5
 
           if [ "$instance" == "frontend" ]; then
                     IP=$(aws ec2 describe-instances --instance-ids "$INSTANCE_ID" \
