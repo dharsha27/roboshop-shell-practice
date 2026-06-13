@@ -37,41 +37,35 @@ fi
 
 get_instance_id(){
     name=$1
-    aws ec2 describe-instances --filters "Name=tag:Name,Values=roboshop-$name" "Name=instance-state-name, Values=running" --query "Reservations[0].Instances[0].InstanceId" --output text
+    aws ec2 describe-instances --filters "Name=tag:Name,Values=roboshop-$name" "Name=instance-state-name, Values=running" \
+    --query "Reservations[0].Instances[0].InstanceId" \
+    --output text
 
 }
 
 launch_instance(){
-
+    
     echo -e "we are going to launching the  instance according to your requirement--roboshop $instance" >&2
     aws ec2 run-instances \
     --image-id $AMI_ID \
     --instance-type t3.micro \
     --security-groups "roboshop-common" "roboshop-$instance" \
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=roboshop-$instance}]"\
-    --query 'Instances[0].InstanceId'\
+    --query 'Instances[0].InstanceId' \
     --output text
 
 }
 
 
-# destroy_instance(){
-
-#     instance_id=$instance_id
-
-#     aws ec2 terminate-instances --instance-ids $instance_id
-# }
-
-
 for instance in "$@" 
 do 
 
- INSTANCE_ID=$(get_instance_id "$instance")
+   INSTANCE_ID=$(get_instance_id "$instance")
 
  if [ "$ACTION" == "create" ]; then
      if [ "$INSTANCE_ID" == "None"  ]; then
        
-              INSTANCE_ID=$(launch_instance) 
+             launch_instance 
               echo "Launched Instance: $INSTANCE_ID"
      else
           echo "This instance $instance already created , this is the instance_id =$INSTANCE_ID... so please check it your end "
