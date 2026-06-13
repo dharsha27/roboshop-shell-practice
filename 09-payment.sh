@@ -55,7 +55,7 @@ fi
 rm -rf /app  &>> "$LOGS_FILE"
 VALIDATE $? "Removing existing code"  &>> "$LOGS_FILE"
 
-rm -rf /tmp/catalogue.zip
+rm -rf /tmp/payment.zip
 VALIDATE $? "Removing existing code"  &>> "$LOGS_FILE"
 
 mkdir -p /app &>> "$LOGS_FILE"
@@ -79,4 +79,4 @@ systemctl daemon-reload
 systemctl enable payment  &>> "$LOGS_FILE"
 systemctl start payment &>> "$LOGS_FILE"
 VALIDATE $? "Enable and start catalogue " &>> "$LOGS_FILE"
-     
+      

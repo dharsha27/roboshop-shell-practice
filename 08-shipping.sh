@@ -62,7 +62,9 @@ mkdir -p /app &>> "$LOGS_FILE"
 VALIDATE $? "Creating app directory "
 
 curl -L -o /tmp/shipping.zip https://roboshop-artifacts.s3.amazonaws.com/shipping-v3.zip 
+
 cd /app 
+
 unzip /tmp/shipping.zip
 
 VALIDATE $? "Downloaded and extracted shipping code"  &>> "$LOGS_FILE"
@@ -80,8 +82,6 @@ systemctl daemon-reload &>> "$LOGS_FILE"
 systemctl enable shipping  &>> "$LOGS_FILE"
 systemctl start shipping &>> "$LOGS_FILE"
 VALIDATE $? "Enable and start catalogue " &>> "$LOGS_FILE"
-
-
 
 dnf install mysql -y &>> "$LOGS_FILE"
 
@@ -101,6 +101,6 @@ else
 fi
 
 
-# systemctl enable shipping 
+systemctl enable shipping 
 systemctl restart shipping
- VALIDATE $? "Enabled and restarted shipping "
+VALIDATE $? "Enabled and restarted shipping "
